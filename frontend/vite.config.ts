@@ -8,4 +8,9 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  // maplibre-gl ships its web worker as a separate entry the dep optimizer
+  // can't resolve; let it be served unbundled instead.
+  optimizeDeps: {
+    exclude: ['maplibre-gl'],
+  },
 })
