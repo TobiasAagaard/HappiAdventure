@@ -1,4 +1,5 @@
 #:package Aspire.Hosting.PostgreSQL@13.5.3
+#:package Aspire.Hosting.JavaScript@13.5.3
 #:sdk Aspire.AppHost.Sdk@13.5.3
 #:property AspireUseCliBundle=true
 #:project ../api/HappiAdventure.Api.csproj
@@ -13,8 +14,12 @@ var postgres = builder
 
 var db = postgres.AddDatabase("Happi");
 
-builder.AddProject<Projects.HappiAdventure_Api>("api")
+var api = builder.AddProject<Projects.HappiAdventure_Api>("api")
     .WithReference(db)
     .WaitFor(db);
+
+builder.AddViteApp("frontend", "../frontend")
+    .WithReference(api)
+    .WaitFor(api);
 
 builder.Build().Run();
