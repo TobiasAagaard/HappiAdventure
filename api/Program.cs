@@ -10,6 +10,8 @@ builder.Services.AddDbContext<HappiAdventureDbContext>(o =>
      .UseSnakeCaseNamingConvention());
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p
@@ -26,7 +28,12 @@ await using (var scope = app.Services.CreateAsyncScope())
     await SeedData.EnsureSeededAsync(db);
 }
 
-if (app.Environment.IsDevelopment()) app.MapOpenApi();
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseCors();
 app.MapControllers();
