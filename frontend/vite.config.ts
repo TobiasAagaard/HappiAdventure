@@ -13,4 +13,10 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['maplibre-gl'],
   },
+
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5163',
+    },
+  },
 })
