@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getActivities } from '../lib/api'
-import type { Activity } from '../lib/types'
+import { getActivities } from '../../lib/api'
+import type { Activity } from '../../lib/types'
 
 
 export function useActivities() {
