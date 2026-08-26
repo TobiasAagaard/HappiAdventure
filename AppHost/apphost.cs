@@ -9,8 +9,7 @@ var postgres = builder
     .AddPostgres("postgres")
     .WithImage("postgis/postgis")
     .WithImageTag("16-3.4")
-    .WithDataVolume()
-    .WithPgAdmin();
+    .WithDataVolume();
 
 var db = postgres.AddDatabase("Happi");
 
