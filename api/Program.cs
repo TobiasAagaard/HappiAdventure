@@ -3,11 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<HappiAdventureDbContext>(o =>
-    o.UseNpgsql(
-         builder.Configuration.GetConnectionString("Happi"),
-         npg => npg.UseNetTopologySuite())
-     .UseSnakeCaseNamingConvention());
+builder.AddNpgsqlDbContext<HappiAdventureDbContext>("Happi",
+    configureDbContextOptions: o => o
+        .UseNpgsql(npg => npg.UseNetTopologySuite())
+        .UseSnakeCaseNamingConvention());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

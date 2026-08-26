@@ -8,6 +8,9 @@ public class HappiAdventureDbContext(DbContextOptions<HappiAdventureDbContext> o
     public DbSet<Place> Places => Set<Place>();
     public DbSet<Activity> Activities => Set<Activity>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) =>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasPostgresExtension("postgis");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(HappiAdventureDbContext).Assembly);
+    }
 }
