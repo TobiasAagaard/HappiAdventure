@@ -1,23 +1,34 @@
+using HappiAdventure.Application.Db;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<HappiAdventureDbContext>(o =>
+    o.UseNpgsql(
+         builder.Configuration.GetConnectionString("Happi"),
+         npg => npg.UseNetTopologySuite())
+     .UseSnakeCaseNamingConvention());
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddCors(o => o.AddDefaultPolicy(p => p
+    .WithOrigins("http://localhost:5173")
+    .AllowAnyHeader()
+    .AllowAnyMethod()));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+await using (var scope = app.Services.CreateAsyncScope())
 {
-    app.MapOpenApi();
+    var db = scope.ServiceProvider.GetRequiredService<HappiAdventureDbContext>();
+    await db.Database.MigrateAsync();
+    await SeedData.EnsureSeededAsync(db);
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
-app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();
