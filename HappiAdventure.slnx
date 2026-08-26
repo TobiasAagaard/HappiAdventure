@@ -1,0 +1,5 @@
+<Solution>
+	<Project Path="api/HappiAdventure.Api.csproj" />
+	<Project Path="libs/HappiAdventure.Application/HappiAdventure.Application.csproj" />
+	<Project Path="libs/HappiAdventure.Contract/HappiAdventure.Contract.csproj" />
+</Solution>
